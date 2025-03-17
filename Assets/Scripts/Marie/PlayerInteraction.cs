@@ -4,12 +4,17 @@ using UnityEngine.InputSystem;
 
 public class PlayerInteraction : MonoBehaviour
 {
+
+
+
     private PlayerInteractionAnim _anim;
     private Inventory _inventory;
     private InteractionType _possibleInteraction = InteractionType.None;
     private KeyItem _possiblePickable;
     private Interactive _possibleInteractive;
 
+
+ 
     private void Start()
     {
         _anim = GetComponent<PlayerInteractionAnim>();
