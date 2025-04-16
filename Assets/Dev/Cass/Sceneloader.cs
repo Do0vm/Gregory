@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Deathplane : MonoBehaviour
+public class SceneLoader : MonoBehaviour
 {
+    public int targetScene;
     // Start is called before the first frame update
     private void OnCollisionEnter(Collision collision)
     {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            SceneManager.LoadScene(targetScene);
     }
     void Start()
     {
