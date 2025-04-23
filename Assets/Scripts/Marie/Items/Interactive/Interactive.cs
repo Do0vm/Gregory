@@ -14,25 +14,27 @@ public class Interactive : MonoBehaviour
     public List<KeyItemData> requiredItems;
 
     public bool waitForObject;
-    
+
     //Basic behaviour for Interactive objects is to trigger an animation
     //virtual makes the function changeable in children classes
     public virtual void OnInteraction()
     {
-        //playerInventory != null &&
+        // true if no keys are required, or if the playerInventory exists AND HasKey(...) passes
+        bool keysOk = (requiredItems == null || requiredItems.Count == 0)
+                      || (playerInventory != null && playerInventory.HasKey(requiredItems));
 
-        if (playerInventory != null &&  playerInventory.HasKey(requiredItems))
+        if (keysOk)
         {
-
+            // open the door
             door.SetActive(false);
-            door.tag = "Interactive";
-            Debug.Log("Golden key used. Door is now open.");
+            Debug.Log($"{gameObject.name} opened!");
         }
         else
         {
             Debug.Log("Player does not have the required key.");
+            // optionally trigger a fail animation here
         }
     }
 
-    
+
 }

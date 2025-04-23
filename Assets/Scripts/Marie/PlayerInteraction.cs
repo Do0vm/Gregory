@@ -72,25 +72,38 @@ public class PlayerInteraction : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (!PlayerInteractionAnim.AnimationInProgress)
-        {
-            if (other.transform.CompareTag("Pickable"))
-            {
-                _possiblePickable = other.GetComponentInChildren<KeyItem>();
-                SetInteraction(InteractionType.Pickup);
-            }
-            else if (other.transform.CompareTag("Interactive"))
-            {
-                Interactive interactive = other.GetComponent<Interactive>();
-                //if interaction doesn't need key object or interaction key object is in inventory
-                bool hasRequiredItems = _inventory.HasEveryItem(interactive.requiredItems);
-                
-                if (!interactive.waitForObject || hasRequiredItems)
-                {
-                    _possibleInteractive = interactive;
-                    SetInteraction(_possibleInteractive.interactionType);
-                }
+        if (PlayerInteractionAnim.AnimationInProgress)
+            return;
 
+        // PICKUP
+        if (other.CompareTag("Pickable"))
+        {
+            _possiblePickable = other.GetComponentInChildren<KeyItem>();
+            SetInteraction(InteractionType.Pickup);
+            return;
+        }
+
+        // INTERACTIVE
+        if (other.CompareTag("Interactive"))
+        {
+            // try to find the script *on this* collider, or on a parent
+            Interactive interactive = other.GetComponent<Interactive>()
+                                      ?? other.GetComponentInParent<Interactive>();
+            if (interactive == null)
+            {
+                Debug.LogWarning($"‘Interactive’ tag on {other.name} but no Interactive script found.");
+                return;
+            }
+
+            // make sure our Inventory reference is valid
+            if (_inventory == null)
+                _inventory = Inventory.Instance;
+
+            bool hasRequiredItems = _inventory.HasEveryItem(interactive.requiredItems);
+            if (!interactive.waitForObject || hasRequiredItems)
+            {
+                _possibleInteractive = interactive;
+                SetInteraction(interactive.interactionType);
             }
         }
     }
