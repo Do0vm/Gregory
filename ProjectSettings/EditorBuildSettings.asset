@@ -5,13 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Menu.unity
     guid: 1cdac74563178404f90bfc692ebcacb8
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Escape The Dungeon.unity
     guid: 4eeb9ddab3a29844bb7f984ac3ed7423
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/EndGame.unity
     guid: 55806995cdf54b24083907869661ed77
   - enabled: 1

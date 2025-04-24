@@ -6,7 +6,7 @@ public class Interactive : MonoBehaviour
     public InteractionType interactionType = InteractionType.PushButton;
 
     public GameObject door;
-    public PlayerInventory playerInventory;
+    //public PlayerInventory playerInventory;
 
     public bool onlyOnce = true;
 
@@ -19,20 +19,20 @@ public class Interactive : MonoBehaviour
     //virtual makes the function changeable in children classes
     public virtual void OnInteraction()
     {
-        // true if no keys are required, or if the playerInventory exists AND HasKey(...) passes
-        bool keysOk = (requiredItems == null || requiredItems.Count == 0)
-                      || (playerInventory != null && playerInventory.HasKey(requiredItems));
+        var inv = Inventory.Instance;
+
+        bool keysOk =
+                   (requiredItems == null || requiredItems.Count == 0) ||
+                   (inv != null && inv.HasEveryItem(requiredItems));
 
         if (keysOk)
         {
-            // open the door
             door.SetActive(false);
             Debug.Log($"{gameObject.name} opened!");
         }
         else
         {
             Debug.Log("Player does not have the required key.");
-            // optionally trigger a fail animation here
         }
     }
 
